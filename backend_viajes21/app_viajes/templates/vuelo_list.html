@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestionar Vuelos{% endblock %}
+
+{% block header %}Vuelos{% endblock %}
+
+{% block content %}
+<style>
+    .table-container { margin-top: 20px; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #0d47a1;
+        color: white;
+    }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e9ecef; }
+    .actions a { margin-right: 10px; color: #1976d2; }
+    .actions a.delete { color: #d32f2f; }
+</style>
+
+<a href="{% url 'vuelo_create' %}" class="btn btn-primary">Añadir Nuevo Vuelo</a>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Número de Vuelo</th>
+                <th>Aerolínea</th>
+                <th>Origen</th>
+                <th>Destino</th>
+                <th>Fecha Salida</th>
+                <th>Hora Salida</th>
+                <th>Fecha Llegada</th>
+                <th>Hora Llegada</th>
+                <th>Precio Clase Económica</th>
+                <th>Asientos Disponibles</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for vuelo in vuelos %}
+            <tr>
+                <td>{{ vuelo.num_vuelo }}</td>
+                <td>{{ vuelo.aerolinea }}</td>
+                <td>{{ vuelo.origen.nombre_destino }}</td>
+                <td>{{ vuelo.destino.nombre_destino }}</td>
+                <td>{{ vuelo.fecha_salida }}</td>
+                <td>{{ vuelo.hora_salida }}</td>
+                <td>{{ vuelo.fecha_llegada }}</td>
+                <td>{{ vuelo.hora_llegada }}</td>
+                <td>{{ vuelo.precio_clase_economica }}</td>
+                <td>{{ vuelo.asientos_disponibles }}</td>
+                <td class="actions">
+                    <a href="{% url 'vuelo_update' vuelo.pk %}">Editar</a>
+                    <a href="{% url 'vuelo_delete' vuelo.pk %}" class="delete">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="11">No hay vuelos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

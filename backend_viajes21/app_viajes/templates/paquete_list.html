@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestionar Paquetes Turísticos{% endblock %}
+
+{% block header %}Paquetes Turísticos{% endblock %}
+
+{% block content %}
+<style>
+    .table-container { margin-top: 20px; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #0d47a1;
+        color: white;
+    }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e9ecef; }
+    .actions a { margin-right: 10px; color: #1976d2; }
+    .actions a.delete { color: #d32f2f; }
+    ul { padding-left: 20px; margin: 0; }
+</style>
+
+<a href="{% url 'paquete_create' %}" class="btn btn-primary">Añadir Nuevo Paquete</a>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre del Paquete</th>
+                <th>Descripción</th>
+                <th>Destino</th>
+                <th>Fechas</th>
+                <th>Precio Adulto / Niño</th>
+                <th>Cupo</th>
+                <th>Vuelos Incluidos</th>
+                <th>Alojamientos Incluidos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for paquete in paquetes %}
+            <tr>
+                <td>{{ paquete.nombre_paquete }}</td>
+                <td>{{ paquete.descripcion }}</td>
+                <td>{{ paquete.id_destino.nombre_destino }}</td>
+                <td>{{ paquete.fecha_inicio }} al {{ paquete.fecha_fin }}</td>
+                <td>{{ paquete.precio_adulto }} / {{ paquete.precio_nino }}</td>
+                <td>{{ paquete.cupo_maximo }}</td>
+                <td>
+                    <ul>
+                    {% for vuelo in paquete.incluye_vuelo.all %}
+                        <li>{{ vuelo }}</li>
+                    {% empty %}
+                        <li>N/A</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                    {% for alojamiento in paquete.incluye_alojamiento.all %}
+                        <li>{{ alojamiento }}</li>
+                    {% empty %}
+                        <li>N/A</li>
+                    {% endfor %}
+                    </ul>
+                </td>
+                <td class="actions">
+                    <a href="{% url 'paquete_update' paquete.pk %}">Editar</a>
+                    <a href="{% url 'paquete_delete' paquete.pk %}" class="delete">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="9">No hay paquetes registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

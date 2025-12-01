@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block header %}{{ title }}{% endblock %}
+
+{% block content %}
+<style>
+    .form-container {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        max-width: 600px;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        color: #333;
+    }
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    .btn-container {
+        margin-top: 20px;
+    }
+    .error-summary {
+        color: #721c24;
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        padding: 15px;
+        margin-bottom: 20px;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+    }
+    .error-summary ul {
+        margin: 0;
+        padding-left: 20px;
+    }
+</style>
+
+<div class="form-container">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            <div class="error-summary">
+                <strong>Por favor, corrige los siguientes errores:</strong>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        {{ form.as_p }}
+        
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="{% url 'reserva_list' %}" class="btn" style="background-color: #6c757d;">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestionar Alojamientos{% endblock %}
+
+{% block header %}Alojamientos{% endblock %}
+
+{% block content %}
+<style>
+    .table-container { margin-top: 20px; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #0d47a1;
+        color: white;
+    }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e9ecef; }
+    .actions a { margin-right: 10px; color: #1976d2; }
+    .actions a.delete { color: #d32f2f; }
+</style>
+
+<a href="{% url 'alojamiento_create' %}" class="btn btn-primary">Añadir Nuevo Alojamiento</a>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Hotel</th>
+                <th>Tipo</th>
+                <th>Dirección</th>
+                <th>Destino</th>
+                <th>País</th>
+                <th>Estrellas</th>
+                <th>Precio por Noche</th>
+                <th>Servicios Incluidos</th>
+                <th>Teléfono</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alojamiento in alojamientos %}
+            <tr>
+                <td>{{ alojamiento.nombre_hotel }}</td>
+                <td>{{ alojamiento.tipo_alojamiento }}</td>
+                <td>{{ alojamiento.direccion }}</td>
+                <td>{{ alojamiento.destino.nombre_destino }}</td>
+                <td>{{ alojamiento.destino.pais }}</td>
+                <td>{{ alojamiento.estrellas }}</td>
+                <td>{{ alojamiento.precio_noche_estandar }}</td>
+                <td>{{ alojamiento.servicios_incluidos }}</td>
+                <td>{{ alojamiento.telefono }}</td>
+                <td class="actions">
+                    <a href="{% url 'alojamiento_update' alojamiento.pk %}">Editar</a>
+                    <a href="{% url 'alojamiento_delete' alojamiento.pk %}" class="delete">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10">No hay alojamientos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

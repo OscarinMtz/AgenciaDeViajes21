@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Gestionar Reservas{% endblock %}
+
+{% block header %}Reservas{% endblock %}
+
+{% block content %}
+<style>
+    .table-container { margin-top: 20px; }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #0d47a1;
+        color: white;
+    }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e9ecef; }
+    .actions a { margin-right: 10px; color: #1976d2; }
+    .actions a.delete { color: #d32f2f; }
+</style>
+
+<a href="{% url 'reserva_create' %}" class="btn btn-primary">Añadir Nueva Reserva</a>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Paquete</th>
+                <th>Cliente</th>
+                <th>Fecha de Reserva</th>
+                <th>Adultos</th>
+                <th>Niños</th>
+                <th>Total Pagado</th>
+                <th>Estado</th>
+                <th>Vencimiento Pago</th>
+                <th>Agente</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reserva in reservas %}
+            <tr>
+                <td>{{ reserva.id_paquete.nombre_paquete }}</td>
+                <td>{{ reserva.id_cliente.nombre }} {{ reserva.id_cliente.apellido }}</td>
+                <td>{{ reserva.fecha_reserva }}</td>
+                <td>{{ reserva.num_adultos }}</td>
+                <td>{{ reserva.num_ninos }}</td>
+                <td>{{ reserva.total_pagado }}</td>
+                <td>{{ reserva.estado_reserva }}</td>
+                <td>{{ reserva.fecha_vencimiento_pago }}</td>
+                <td>{% if reserva.id_agente_venta %}{{ reserva.id_agente_venta.nombre }} {{ reserva.id_agente_venta.apellido }}{% else %}N/A{% endif %}</td>
+                <td class="actions">
+                    <a href="{% url 'reserva_update' reserva.pk %}">Editar</a>
+                    <a href="{% url 'reserva_delete' reserva.pk %}" class="delete">Eliminar</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="10">No hay reservas registradas.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

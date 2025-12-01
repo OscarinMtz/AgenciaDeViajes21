@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}Agencia de Viajes{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            background-color: #0056b3;
+            color: white;
+            padding: 15px 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5em;
+        }
+        .nav-menu {
+            float: right;
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-menu li {
+            display: inline;
+            margin-left: 20px;
+        }
+        .nav-menu a {
+            color: #e0e0e0;
+            text-decoration: none;
+            font-size: 1em;
+        }
+        .container {
+            padding: 30px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'index' %}">Agencia de Viajes</a>
+        <ul class="nav-menu">
+            <li><a href="{% url 'vuelo_list' %}">Vuelos</a></li>
+            <li><a href="{% url 'alojamiento_list' %}">Alojamientos</a></li>
+            <li><a href="{% url 'agente_list' %}">Agentes</a></li>
+            <li><a href="{% url 'destino_list' %}">Destinos</a></li>
+            <li><a href="{% url 'paquete_list' %}">Paquetes</a></li>
+            <li><a href="{% url 'cliente_list' %}">Clientes</a></li>
+            <li><a href="{% url 'reserva_list' %}">Reservas</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <h1>{% block header %}{% endblock %}</h1>
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
